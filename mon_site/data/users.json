@@ -1,0 +1,17 @@
+[
+  {
+    "id": "admin-1",
+    "email": "admin@example.com",
+    "nom": "Admin principal",
+    "role": "admin",
+    "permissions": [
+      "conversations:read",
+      "conversations:write",
+      "users:manage",
+      "theme:manage"
+    ],
+    "hash": "5c06eb3d5a05a19f49476d694ca81a36344660e9d5b98e3d6a6630f31c2422e7",
+    "actif": true,
+    "createdAt": "2025-11-19T20:58:07.564Z"
+  }
+]

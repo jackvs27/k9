@@ -1,0 +1,136 @@
+﻿<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Atelier Dialogue - Accueil</title>
+    <meta name="description" content="Solution de chat client↔admin responsive" />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="js/theme.js" defer></script>
+    <script type="module" src="js/chat-widget.js" defer></script>
+  </head>
+  <body class="page-accueil">
+    <header class="site-header">
+      <div class="logo">
+        <img id="site-logo" src="assets/logo.svg" alt="Atelier Dialogue" />
+        <div>
+          <strong id="site-title">Atelier Dialogue</strong>
+          <small id="site-sub">Support humain &amp; instantané</small>
+        </div>
+      </div>
+      <nav>
+        <a href="index.html">Accueil</a>
+        <a href="catalogue.html">Catalogue</a>
+        <a href="produit.html">Produit</a>
+        <a href="contact.html">Contact</a>
+        <a href="faq.html">FAQ</a>
+        <a href="confidentialite.html">Confidentialité</a>
+        <a href="admin.html" class="admin-link">Admin</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Expérience client omnicanale</p>
+          <h1 id="hero-title">Répondez en direct à vos clients sur chaque page.</h1>
+          <p id="hero-desc">
+            La plateforme réunit widget de chat, centre d'administration complet, conformité RGPD et un
+            moteur temps réel léger (SSE). Tout est personnalisable depuis l'espace Admin.
+          </p>
+          <div class="cta-group">
+            <a class="btn primary" href="#fonctionnalites">Découvrir les fonctionnalités</a>
+            <a class="btn ghost" href="admin.html">Tester l'espace Admin</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <h3>Statistiques en direct</h3>
+          <ul id="stats-list">
+            <li><span>Temps moyen de réponse</span><strong>&lt; 1 min</strong></li>
+            <li><span>Satisfaction clients</span><strong>97%</strong></li>
+            <li><span>Conversations actives</span><strong>12</strong></li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="fonctionnalites" class="grid-section">
+        <article>
+          <h2>Widget conversationnel</h2>
+          <p>Notifications, pièces jointes, statut de lecture et indicateurs de saisie.</p>
+        </article>
+        <article>
+          <h2>Console Admin</h2>
+          <p>Réponses rapides, filtres, marquage résolu, gestion des utilisateurs et permissions.</p>
+        </article>
+        <article>
+          <h2>Thème &amp; CMS léger</h2>
+          <p>Modifiez couleurs, polices, logos et textes de page sans déployer à nouveau.</p>
+        </article>
+        <article>
+          <h2>Conformité RGPD</h2>
+          <p>Export / suppression, consentement explicite et journal d'activité détaillé.</p>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <p>© <span id="year"></span> Atelier Dialogue · <a href="confidentialite.html">Politique de confidentialité</a></p>
+    </footer>
+
+    <!-- petit script qui applique les réglages stockés par l'admin-local (localStorage / BroadcastChannel) -->
+    <script>
+      // Remplit l'année
+      try { document.getElementById('year').textContent = (new Date()).getFullYear(); } catch(e){}
+
+      const defaults = {
+        title: "Atelier Dialogue",
+        sub: "Support humain & instantané",
+        about: "Expérience client omnicanale",
+        services: ["Chat","Admin","RGPD"],
+        phone: "0123456789",
+        email: "contact@atelier.fr",
+        color: "#2b6cb0",
+        logo: "assets/logo.svg"
+      };
+
+      function getStoredSettings(){
+        try { return JSON.parse(localStorage.getItem('garage_settings') || 'null') || null; }
+        catch(e){ return null; }
+      }
+
+      function applySettings(s){
+        if(!s) return;
+        try {
+          if(s.logo) document.getElementById('site-logo').src = s.logo;
+          if(s.title) {
+            const t = document.getElementById('site-title'); if(t) t.textContent = s.title;
+            const h = document.getElementById('hero-title'); if(h) h.textContent = s.title;
+            document.title = s.title + " - Accueil";
+          }
+          if(s.sub){ const sub = document.getElementById('site-sub'); if(sub) sub.textContent = s.sub; }
+          if(s.about){ const desc = document.getElementById('hero-desc'); if(desc) desc.textContent = s.about; }
+          if(s.color) document.documentElement.style.setProperty('--primary', s.color);
+          // services : si on veut on peut reconstruire une section, mais on laisse l'UI fixe pour l'instant
+        } catch(e){ console.warn('applySettings error', e); }
+      }
+
+      // apply on load
+      const s0 = getStoredSettings();
+      if(s0) applySettings(s0);
+
+      // realtime updates: BroadcastChannel if supported, otherwise listen storage change
+      if('BroadcastChannel' in window){
+        try {
+          const bc = new BroadcastChannel('garage_channel');
+          bc.onmessage = (ev) => { if(ev.data && ev.data.type === 'settings') applySettings(ev.data.settings || defaults); };
+        } catch(e){ /* ignore */ }
+      }
+      window.addEventListener('storage', (e) => {
+        if(e.key === 'garage_settings' || e.key === 'garage_settings_update'){
+          const s = getStoredSettings();
+          applySettings(s || defaults);
+        }
+      });
+    </script>
+  </body>
+</html>

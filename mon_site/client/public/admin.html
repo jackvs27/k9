@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Espace Admin</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/admin.css" />
+    <script type="module" src="/js/admin.js" defer></script>
+    <script type="module" src="/js/theme.js" defer></script>
+    <script type="module" src="/js/chat-widget.js" defer></script>
+  </head>
+  <body class="page-admin">
+    <header class="site-header">
+      <div class="logo">
+        <img src="/assets/logo.svg" alt="Atelier Dialogue" />
+        <div>
+          <strong>Atelier Dialogue</strong>
+          <small>Espace Admin</small>
+        </div>
+      </div>
+      <nav>
+        <a href="/index.html">↩ Retour au site</a>
+      </nav>
+    </header>
+
+    <main class="admin">
+      <section class="panel" id="login-panel">
+        <h1>Connexion Admin</h1>
+        <form id="login-form">
+          <label>Email<input type="email" name="email" value="admin@example.com" required /></label>
+          <label>Mot de passe<input type="password" name="password" value="admin123!" required /></label>
+          <button class="btn primary" type="submit">Se connecter</button>
+          <p class="muted">Les sessions sont protégées par CSRF et cookies HttpOnly.</p>
+        </form>
+      </section>
+
+      <section class="panel hidden" id="admin-panels">
+        <div class="tabs">
+          <button data-tab="conversations" class="active">Conversations</button>
+          <button data-tab="theme">Thème &amp; Pages</button>
+          <button data-tab="users">Utilisateurs</button>
+          <button data-tab="rgpd">RGPD</button>
+        </div>
+
+        <div class="tab" id="tab-conversations">
+          <div class="toolbar">
+            <input type="search" id="search-conv" placeholder="Rechercher" />
+            <select id="filter-status">
+              <option value="">Tous</option>
+              <option value="open">Ouverts</option>
+              <option value="resolved">Résolus</option>
+            </select>
+            <button id="refresh-conv">Actualiser</button>
+          </div>
+          <div class="columns">
+            <div class="list" id="conversation-list"></div>
+            <div class="conversation-view">
+              <div id="conversation-meta"></div>
+              <div class="messages" id="messages"></div>
+              <div class="quick-replies" id="quick-replies"></div>
+              <form id="reply-form">
+                <textarea name="message" placeholder="Répondre..." required></textarea>
+                <div class="actions">
+                  <input type="file" id="reply-attachment" />
+                  <button type="submit" class="btn primary">Envoyer</button>
+                  <button type="button" id="mark-resolved">Marquer résolu</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab hidden" id="tab-theme">
+          <div class="split">
+            <form id="theme-form">
+              <h2>Personnalisation</h2>
+              <label>Nom du site<input name="nomSite" /></label>
+              <label>Couleur primaire<input type="color" name="couleurs.primaire" /></label>
+              <label>Couleur secondaire<input type="color" name="couleurs.secondaire" /></label>
+              <label>Couleur fond<input type="color" name="couleurs.fond" /></label>
+              <label>Couleur texte<input type="color" name="couleurs.texte" /></label>
+              <label>Police titres<input name="polices.titre" /></label>
+              <label>Police corps<input name="polices.corps" /></label>
+              <label>Logo (URL)<input name="logo" /></label>
+              <label>CSS personnalisé<textarea name="cssPerso" rows="4"></textarea></label>
+              <button class="btn primary" type="submit">Sauvegarder</button>
+            </form>
+            <div class="preview" id="theme-preview">
+              <p class="muted">Prévisualisation instantanée du thème appliqué.</p>
+              <div class="preview-card">
+                <h3>Aperçu</h3>
+                <p>Modifiez les champs pour voir le rendu ici avant publication.</p>
+              </div>
+            </div>
+          </div>
+          <form id="pages-form">
+            <h2>Textes / Métadonnées</h2>
+            <div class="page-grid" id="pages-grid"></div>
+            <button class="btn" type="submit">Mettre à jour</button>
+          </form>
+        </div>
+
+        <div class="tab hidden" id="tab-users">
+          <h2>Utilisateurs &amp; permissions</h2>
+          <table id="users-table">
+            <thead>
+              <tr><th>Nom</th><th>Email</th><th>Rôle</th><th>Permissions</th><th>Actions</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <form id="user-form">
+            <h3>Nouvel utilisateur</h3>
+            <label>Nom<input name="nom" required /></label>
+            <label>Email<input type="email" name="email" required /></label>
+            <label>Mot de passe<input type="password" name="password" required /></label>
+            <label>Rôle<select name="role"><option value="agent">Agent</option><option value="admin">Admin</option></select></label>
+            <label>Permissions (séparées par des virgules)<input name="permissions" /></label>
+            <button class="btn" type="submit">Créer</button>
+          </form>
+        </div>
+
+        <div class="tab hidden" id="tab-rgpd">
+          <h2>Centre RGPD</h2>
+          <form id="export-form">
+            <label>Email client<input type="email" name="email" required /></label>
+            <button class="btn" type="submit">Exporter</button>
+          </form>
+          <form id="delete-form">
+            <label>Email client<input type="email" name="email" required /></label>
+            <button class="btn danger" type="submit">Supprimer</button>
+          </form>
+          <button id="download-export" class="btn">Télécharger toutes les conversations</button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

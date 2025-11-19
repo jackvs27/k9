@@ -1,0 +1,27 @@
+{
+  "accueil": {
+    "titre": "Accueil",
+    "hero": "Un service client réactif pour vos visiteurs",
+    "contenu": "Présentez vos offres et accompagnez vos clients avec un chat en direct."
+  },
+  "catalogue": {
+    "titre": "Catalogue & Services",
+    "contenu": "Détaillez vos prestations phares, leurs bénéfices et les garanties."
+  },
+  "produit": {
+    "titre": "Page Produit",
+    "contenu": "Structurez une présentation claire : caractéristiques, preuves sociales, FAQ dédiée."
+  },
+  "contact": {
+    "titre": "Contact",
+    "contenu": "Formulaire, informations de contact et disponibilité du support."
+  },
+  "faq": {
+    "titre": "FAQ",
+    "contenu": "Répondez aux questions fréquentes pour rassurer vos prospects."
+  },
+  "confidentialite": {
+    "titre": "Politique de confidentialité",
+    "contenu": "Expliquez vos engagements RGPD, la durée de conservation et les droits utilisateurs."
+  }
+}

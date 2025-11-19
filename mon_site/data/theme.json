@@ -1,0 +1,15 @@
+{
+  "nomSite": "Atelier Dialogue",
+  "couleurs": {
+    "primaire": "#2b59c3",
+    "secondaire": "#fbb13c",
+    "fond": "#f5f7fb",
+    "texte": "#1a1a1a"
+  },
+  "polices": {
+    "titre": "Poppins, Arial, sans-serif",
+    "corps": "Inter, system-ui"
+  },
+  "logo": "/assets/logo.svg",
+  "cssPerso": ""
+}
